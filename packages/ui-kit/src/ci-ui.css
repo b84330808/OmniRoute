@@ -3199,22 +3199,30 @@
 /* Opt-in usage workspace foundations. Existing controls retain their defaults. */
 @layer components {
   .ci-button--assistant {
+    --assistant-edge-tint: var(--ci-color-accent);
     --assistant-center-tint: color-mix(in srgb, var(--ci-color-accent) 65%, var(--ci-neutral-0) 35%);
     color: var(--ci-color-accent-foreground);
     border-color: transparent;
     border-radius: var(--ci-radius-full);
     background: var(--ci-color-accent);
-    background-image: linear-gradient(120deg, var(--ci-color-accent) 0%, var(--assistant-center-tint) 50%, var(--ci-color-accent) 100%);
+    background-image: linear-gradient(120deg, var(--assistant-edge-tint) 0%, var(--assistant-center-tint) 50%, var(--assistant-edge-tint) 100%);
     background-origin: border-box;
     background-clip: border-box;
     background-repeat: no-repeat;
   }
-  .ci-button--assistant:hover {
-    --assistant-center-tint: color-mix(in srgb, var(--ci-color-accent) 70%, var(--ci-neutral-0) 30%);
-    background-image: linear-gradient(120deg, var(--ci-color-accent) 0%, var(--assistant-center-tint) 50%, var(--ci-color-accent) 100%);
+  .ci-button--assistant:not(:disabled):not([aria-disabled="true"]):hover {
+    --assistant-edge-tint: var(--ci-color-accent-hover);
+    --assistant-center-tint: color-mix(in srgb, var(--ci-color-accent-hover) 90%, var(--ci-neutral-0) 10%);
+    background-image: linear-gradient(120deg, var(--assistant-edge-tint) 0%, var(--assistant-center-tint) 50%, var(--assistant-edge-tint) 100%);
   }
-  .ci-button--assistant:active {
-    --assistant-center-tint: color-mix(in srgb, var(--ci-color-accent) 75%, var(--ci-neutral-0) 25%);
+  .ci-button--assistant:not(:disabled):not([aria-disabled="true"]):active {
+    --assistant-edge-tint: var(--ci-color-accent);
+    --assistant-center-tint: var(--ci-color-accent-hover);
+    background-image: linear-gradient(120deg, var(--assistant-edge-tint) 0%, var(--assistant-center-tint) 50%, var(--assistant-edge-tint) 100%);
+  }
+  .ci-button--assistant:is(:disabled, [aria-disabled="true"]):hover {
+    background: var(--ci-color-accent);
+    background-image: linear-gradient(120deg, var(--assistant-edge-tint) 0%, var(--assistant-center-tint) 50%, var(--assistant-edge-tint) 100%);
   }
 
   .ci-switch--size-sm { gap: var(--ci-space-2); }
@@ -3332,6 +3340,7 @@
 
 @media (forced-colors: active) {
   .ci-button--assistant, .ci-button--assistant:hover, .ci-button--assistant:active { color: ButtonText; border-color: ButtonText; background: ButtonFace; }
+  .ci-button--assistant:not(:disabled):not([aria-disabled="true"]):hover { color: HighlightText; border-color: Highlight; background: Highlight; }
   .ci-docked-rail { border-color: CanvasText; box-shadow: none; }
 }
 
